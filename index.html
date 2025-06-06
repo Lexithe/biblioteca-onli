@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Libro Abierto</title>
+
+  <!-- Fuente Luckiest Guy -->
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    
+  </style>
+</head>
+<body>
+  <header>
+    <!-- Selector de idioma con texto afuera -->
+    <div class="idioma-container">
+      <div class="idioma-label">🌐 Idiomas</div>
+      <select class="idioma-select">
+        <option value="es">Español</option>
+        <option value="it">Italiano</option>
+        <option value="fr">Francés</option>
+        <option value="ay">Aimara</option>+
+        <option value="qu">Quechua</option>
+        <option value="en">Inglés</option>
+        <option value="pt">Portugués</option>
+      </select>
+    </div>
+
+    <!-- Buscador en esquina derecha -->
+    <div class="buscador-lupa">
+      <input id="buscar-idioma-derecha" type="text" placeholder="Buscar idioma" autocomplete="off" />
+      <span class="emoji-lupa">🔍</span>
+    </div>
+
+    <!-- Título SVG -->
+    <svg viewBox="0 0 500 150" width="100%" height="150">
+      <defs>
+        <path id="curve" d="M50,100 Q250,10 450,100" />
+      </defs>
+      <text font-size="32" fill="#c2185b" font-family="'Luckiest Guy', cursive">
+        <textPath href="#curve" startOffset="50%" text-anchor="middle">
+          EL LIBRO ABIERTO
+        </textPath>
+      </text>
+    </svg>
+    <img src="libroabierto.png" alt="Libro abierto" class="libro-imagen" />
+
+    <p class="subtitulo">TRADUCIENDO SABERES, PRESERVANDO HISTORIAS</p>
+  </header>
+
+  <div class="contenedor-guia">
+    <img src="lexi.jpg" alt="Mascota guía" class="guia-imagen" />
+
+    <div class="botones-columnas">
+      <button class="btn registrar">✍️ Registrar</button>
+      <button class="btn login">🔑 Iniciar sesión</button>
+      <button class="btn salir">🚪 Salir</button>
+    </div>
+  </div>
+
+  <!-- Panel Registro -->
+  <div id="panel-registro" class="modal hidden">
+    <div class="modal-contenido">
+      <h2>✍️ Registrarse</h2>
+
+      <label for="registro-usuario">👤 Usuario</label>
+      <input type="text" id="registro-usuario" placeholder="Ingresa tu usuario" />
+
+      <label for="registro-password">🔒 Contraseña</label>
+      <input type="password" id="registro-password" placeholder="Ingresa tu contraseña" />
+
+      <div id="mensaje-registro" class="mensaje-error"></div>
+      <div id="mensaje-registro-exito" class="mensaje-exito"></div>
+
+      <div class="modal-botones">
+        <button class="btn registrar-btn">Registrar</button>
+        <button class="btn cancelar-modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel Iniciar Sesión -->
+  <div id="panel-login" class="modal hidden">
+    <div class="modal-contenido">
+      <h2>🔐 Iniciar Sesión</h2>
+
+      <label for="login-usuario">👤 Usuario</label>
+      <input type="text" id="login-usuario" placeholder="Ingresa tu usuario" />
+
+      <label for="login-password">🔒 Contraseña</label>
+      <input type="password" id="login-password" placeholder="Ingresa tu contraseña" />
+
+      <div id="mensaje-login" class="mensaje-error"></div>
+      <div id="mensaje-login-exito" class="mensaje-exito"></div>
+
+      <div class="modal-botones">
+        <button class="btn login-btn">Ingresar</button>
+        <button class="btn cancelar-modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel Salir -->
+  <div id="panel-salir" class="modal hidden">
+    <div class="modal-contenido">
+      <h2>🚪 ¿Deseas salir de la página?</h2>
+
+      <div class="modal-botones">
+        <button id="btn-salir-si" class="btn">✅ Sí</button>
+        <button id="btn-salir-no" class="btn cancelar-modal">❌ No</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Traducciones por idioma
+      const traducciones = {
+        es: {
+          titulo: "EL LIBRO ABIERTO",
+          subtitulo: "TRADUCIENDO SABERES, PRESERVANDO HISTORIAS",
+          registrar: "✍️ Registrar",
+          iniciarSesion: "🔑 Iniciar sesión",
+          salir: "🚪 Salir",
+          idiomasLabel: "🌐 Idiomas",
+          buscarPlaceholder: "Buscar idioma"
+        },
+        en: {
+          titulo: "THE OPEN BOOK",
+          subtitulo: "TRANSLATING KNOWLEDGE, PRESERVING STORIES",
+          registrar: "✍️ Register",
+          iniciarSesion: "🔑 Login",
+          salir: "🚪 Logout",
+          idiomasLabel: "🌐 Languages",
+          buscarPlaceholder: "Search language"
+        },
+        fr: {
+          titulo: "LE LIVRE OUVERT",
+          subtitulo: "TRADUIRE LES SAVOIRS, PRÉSERVER LES HISTOIRES",
+          registrar: "✍️ S'inscrire",
+          iniciarSesion: "🔑 Se connecter",
+          salir: "🚪 Quitter",
+          idiomasLabel: "🌐 Langues",
+          buscarPlaceholder: "Rechercher la langue"
+        },
+        it: {
+          titulo: "IL LIBRO APERTO",
+          subtitulo: "TRADURRE CONOSCENZE, PRESERVARE STORIE",
+          registrar: "✍️ Registrati",
+          iniciarSesion: "🔑 Accedi",
+          salir: "🚪 Esci",
+          idiomasLabel: "🌐 Lingue",
+          buscarPlaceholder: "Cerca lingua"
+        },
+        pt: {
+          titulo: "O LIVRO ABERTO",
+          subtitulo: "TRADUZINDO SABERES, PRESERVANDO HISTÓRIAS",
+          registrar: "✍️ Registrar",
+          iniciarSesion: "🔑 Entrar",
+          salir: "🚪 Sair",
+          idiomasLabel: "🌐 Idiomas",
+          buscarPlaceholder: "Buscar idioma"
+        },
+        ay: {
+          titulo: "KUTIYATA KHAQHI",
+          subtitulo: "YATIÑAPXANA QILLQASIPXANA, AMUYT'ASIPXANA",
+          registrar: "✍️ Sutipañani",
+          iniciarSesion: "🔑 Amuyt'añani",
+          salir: "🚪 Chhijllañani",
+          idiomasLabel: "🌐 Aru",
+          buscarPlaceholder: "Aru uñtawi"
+        },
+        qu: {
+          titulo: "QULLANA QILLQANA",
+          subtitulo: "YACHAY WASIYKUQ, RIKCH'AQ YACHAYKUNA",
+          registrar: "✍️ Suti ruwachiy",
+          iniciarSesion: "🔑 Rikhuy",
+          salir: "🚪 Puriy",
+          idiomasLabel: "🌐 Rimaykuna",
+          buscarPlaceholder: "Rimay uyarikuy"
+        }
+      };
+
+      // Referencias DOM
+      const idiomaSelect = document.querySelector(".idioma-select");
+      const buscarIdiomaDerecha = document.getElementById("buscar-idioma-derecha");
+      const libroTituloTextPath = document.querySelector("textPath");
+      const subtitulo = document.querySelector(".subtitulo");
+      const btnRegistrar = document.querySelector(".btn.registrar");
+      const btnLogin = document.querySelector(".btn.login");
+      const btnSalir = document.querySelector(".btn.salir");
+      const idiomaLabel = document.querySelector(".idioma-label");
+      const buscarInputDerecha = buscarIdiomaDerecha;
+
+      // Función para actualizar todos los textos según idioma
+      function actualizarTextos(codigoIdioma) {
+        const t = traducciones[codigoIdioma] || traducciones["es"];
+        // Cambiar texto del título SVG
+        libroTituloTextPath.textContent = t.titulo;
+
+        // Subtítulo
+        subtitulo.textContent = t.subtitulo;
+
+        // Botones
+        btnRegistrar.textContent = t.registrar;
+        btnLogin.textContent = t.iniciarSesion;
+        btnSalir.textContent = t.salir;
+
+        // Label idioma
+        idiomaLabel.textContent = t.idiomasLabel;
+
+        // Placeholder buscar idioma derecha
+        buscarInputDerecha.placeholder = t.buscarPlaceholder;
+      }
+
+      // Actualizar textos al cambiar select idioma
+      idiomaSelect.addEventListener("change", () => {
+        actualizarTextos(idiomaSelect.value);
+        buscarIdiomaDerecha.value = "";
+      });
+
+      // Cuando escriben en el input derecha
+      buscarIdiomaDerecha.addEventListener("input", () => {
+        const valor = buscarIdiomaDerecha.value.toLowerCase();
+        let encontrado = false;
+        for (const opcion of idiomaSelect.options) {
+          if (opcion.text.toLowerCase().startsWith(valor)) {
+            idiomaSelect.value = opcion.value;
+            actualizarTextos(opcion.value);
+            encontrado = true;
+            break;
+          }
+        }
+        // Si no encontró nada no cambia nada
+      });
+
+      // Inicializa con español
+      actualizarTextos("es");
+
+      // ... Resto de tu código para registro/login/salir
+
+      // Funciones para obtener/guardar usuarios en localStorage
+      function obtenerUsuarios() {
+        const usuarios = localStorage.getItem("usuarios");
+        return usuarios ? JSON.parse(usuarios) : {};
+      }
+
+      function guardarUsuarios(usuarios) {
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
+      }
+
+      // Panel registro
+      const btnAbrirRegistro = document.querySelector(".btn.registrar");
+      const modalRegistro = document.getElementById("panel-registro");
+      const btnCancelarRegistro = modalRegistro.querySelector(".cancelar-modal");
+      const btnRegistrarModal = modalRegistro.querySelector(".registrar-btn");
+      const inputRegistroUsuario = document.getElementById("registro-usuario");
+      const inputRegistroPassword = document.getElementById("registro-password");
+      const mensajeRegistro = document.getElementById("mensaje-registro");
+      const mensajeRegistroExito = document.getElementById("mensaje-registro-exito");
+
+      // Panel login
+      const btnAbrirLogin = document.querySelector(".btn.login");
+      const modalLogin = document.getElementById("panel-login");
+      const btnCancelarLogin = modalLogin.querySelector(".cancelar-modal");
+      const btnLoginModal = modalLogin.querySelector(".login-btn");
+      const inputLoginUsuario = document.getElementById("login-usuario");
+      const inputLoginPassword = document.getElementById("login-password");
+      const mensajeLogin = document.getElementById("mensaje-login");
+      const mensajeLoginExito = document.getElementById("mensaje-login-exito");
+
+      // Panel salir
+      const btnAbrirSalir = document.querySelector(".btn.salir");
+      const modalSalir = document.getElementById("panel-salir");
+      const btnCancelarSalir = modalSalir.querySelector(".cancelar-modal");
+      const btnSalirSi = document.getElementById("btn-salir-si");
+
+      // Funciones para abrir modales
+      function abrirModalRegistro() {
+        modalRegistro.classList.remove("hidden");
+        mensajeRegistro.style.display = "none";
+        mensajeRegistroExito.style.display = "none";
+        inputRegistroUsuario.value = "";
+        inputRegistroPassword.value = "";
+      }
+
+      function abrirModalLogin() {
+        modalLogin.classList.remove("hidden");
+        mensajeLogin.style.display = "none";
+        mensajeLoginExito.style.display = "none";
+        inputLoginUsuario.value = "";
+        inputLoginPassword.value = "";
+      }
+
+      btnAbrirRegistro.addEventListener("click", abrirModalRegistro);
+
+      btnCancelarRegistro.addEventListener("click", () => {
+        modalRegistro.classList.add("hidden");
+        mensajeRegistro.style.display = "none";
+        mensajeRegistroExito.style.display = "none";
+      });
+
+      btnRegistrarModal.addEventListener("click", () => {
+        const usuario = inputRegistroUsuario.value.trim();
+        const password = inputRegistroPassword.value.trim();
+        mensajeRegistro.style.display = "none";
+        mensajeRegistroExito.style.display = "none";
+
+        if (!usuario || !password) {
+          mensajeRegistro.textContent = "⚠️ Por favor, rellene todos los campos.";
+          mensajeRegistro.style.display = "block";
+          return;
+        }
+
+        const usuarios = obtenerUsuarios();
+
+        if (usuarios[usuario]) {
+          mensajeRegistro.innerHTML = `⚠️ Usuario ya registrado. Por favor, <span id="link-iniciar-sesion" style="color:blue; text-decoration:underline; cursor:pointer;">inicie sesión</span>.`;
+          mensajeRegistro.style.display = "block";
+
+          document.getElementById("link-iniciar-sesion").addEventListener("click", () => {
+            modalRegistro.classList.add("hidden");
+            abrirModalLogin();
+          });
+          return;
+        }
+
+        usuarios[usuario] = password;
+        guardarUsuarios(usuarios);
+
+        mensajeRegistroExito.textContent = "✅ Usuario registrado correctamente.";
+        mensajeRegistroExito.style.display = "block";
+
+        inputRegistroUsuario.value = "";
+        inputRegistroPassword.value = "";
+
+        setTimeout(() => {
+          modalRegistro.classList.add("hidden");
+          mensajeRegistroExito.style.display = "none";
+        }, 2000);
+      });
+
+      // Login
+      btnAbrirLogin.addEventListener("click", abrirModalLogin);
+
+      btnCancelarLogin.addEventListener("click", () => {
+        modalLogin.classList.add("hidden");
+        mensajeLogin.style.display = "none";
+        mensajeLoginExito.style.display = "none";
+      });
+
+      btnLoginModal.addEventListener("click", () => {
+        const usuario = inputLoginUsuario.value.trim();
+        const password = inputLoginPassword.value.trim();
+        mensajeLogin.style.display = "none";
+        mensajeLoginExito.style.display = "none";
+
+        if (!usuario || !password) {
+          mensajeLogin.textContent = "⚠️ Por favor, rellene todos los campos.";
+          mensajeLogin.style.display = "block";
+          return;
+        }
+
+        const usuarios = obtenerUsuarios();
+
+        if (!usuarios[usuario]) {
+          mensajeLogin.textContent = "⚠️ Usuario no registrado. Por favor, registrese primero.";
+          mensajeLogin.style.display = "block";
+          return;
+        }
+
+        if (usuarios[usuario] !== password) {
+          mensajeLogin.textContent = "⚠️ Contraseña incorrecta.";
+          mensajeLogin.style.display = "block";
+          return;
+        }
+
+        mensajeLoginExito.textContent = "✅ Inicio de sesión exitoso.";
+        mensajeLoginExito.style.display = "block";
+ window.location.href = "dashboard.html";  
+        inputLoginUsuario.value = "";
+        inputLoginPassword.value = "";
+
+        setTimeout(() => {
+          modalLogin.classList.add("hidden");
+          mensajeLoginExito.style.display = "none";
+        }, 2000);
+      });
+
+      // Salir
+      btnAbrirSalir.addEventListener("click", () => {
+        modalSalir.classList.remove("hidden");
+      });
+
+      btnCancelarSalir.addEventListener("click", () => {
+        modalSalir.classList.add("hidden");
+      });
+
+      btnSalirSi.addEventListener("click", () => {
+        modalSalir.classList.add("hidden");
+        alert("Sesión finalizada. Gracias por visitar la página.");
+      });
+    });
+  </script>
+</body>
+</html>
